@@ -47,7 +47,9 @@ while reproduzindo:
             
         if evento['tipo'] == 'mouse':
             mouse.position = (evento['x'], evento['y'])
-            if evento['pressionado']:
+            if evento.get('acao') == 'scroll':
+                mouse.scroll(evento['dx'], evento['dy'])
+            elif evento.get('pressionado'):
                 mouse.press(Button.left)
             else:
                 mouse.release(Button.left)

@@ -10,10 +10,23 @@ def gravar_mouse(x, y, button, pressed):
     if gravando:
         eventos.append({
             'tipo': 'mouse',
+            'acao': 'click',
             'x': x,
             'y': y,
             'botao': str(button),
             'pressionado': pressed,
+            'tempo': time.time()
+        })
+
+def gravar_scroll(x, y, dx, dy):
+    if gravando:
+        eventos.append({
+            'tipo': 'mouse',
+            'acao': 'scroll',
+            'x': x,
+            'y': y,
+            'dx': dx,
+            'dy': dy,
             'tempo': time.time()
         })
 
@@ -35,7 +48,7 @@ def gravar_teclado(tecla):
 print("Gravando... Pressione ESC para parar.")
 
 # Criar os listeners
-mouse_listener = mouse.Listener(on_click=gravar_mouse)
+mouse_listener = mouse.Listener(on_click=gravar_mouse, on_scroll=gravar_scroll)
 teclado_listener = keyboard.Listener(on_press=gravar_teclado)
 
 # Iniciar os listeners
@@ -48,6 +61,6 @@ mouse_listener.stop()
 
 # Salvar os eventos
 with open("macro.json", "w") as f:
-    json.dump(eventos, f)
+    json.dump(eventos, f, indent=4)
 
 print("Gravação salva em macro.json")
